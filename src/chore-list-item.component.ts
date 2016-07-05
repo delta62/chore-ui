@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { NgIf } from '@angular/common';
 
+import { Chore } from './chore';
+
 @Component({
   selector: 'chore-list-item',
   template: `<div class="chore">{{ chore.text }}<span *ngIf="!chore.completed"></span></div>`,
