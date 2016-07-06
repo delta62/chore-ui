@@ -5,9 +5,11 @@ import { ChoreEditComponent } from './chore-edit.component';
 import { ChoreStoreService } from './stores/chore-store.service';
 import { FluxDispatcher } from './flux-dispatcher.service';
 import { ChoreActions } from './actions/chore-actions';
+import { ROUTE_PROVIDERS } from './app.routes';
 
 bootstrap(AppComponent, [
     ChoreStoreService,
     FluxDispatcher,
-    ChoreActions
+    ChoreActions,
+    ROUTE_PROVIDERS
 ]);
