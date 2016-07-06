@@ -1,6 +1,6 @@
 import { invariant } from '../invariant';
 import { FluxDispatcher } from '../flux-dispatcher.service';
-import { FluxStore } from './flux-store.ts';
+import { FluxStore } from './flux-store';
 
 export abstract class FluxReduceStore<T> extends FluxStore{
   private state: T;

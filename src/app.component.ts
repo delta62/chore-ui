@@ -1,7 +1,10 @@
-import { Chore } from './chore';
-import { ChoreListItemComponent } from './chore-list-item.component';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgFor } from '@angular/common';
+
+import { Chore } from './chore';
+import { ChoreStoreService } from './stores/chore-store.service';
+import { ChoreListItemComponent } from './chore-list-item.component';
+import { ChoreActions } from './actions/chore-actions';
 
 @Component({
   selector: 'chore-app',
@@ -9,6 +12,19 @@ import { NgFor } from '@angular/common';
     <chore-list-item *ngFor="let chore of chores" [chore]="chore"></chore-list-item>`,
   directives: [ NgFor, ChoreListItemComponent ]
 })
-export class AppComponent {
-  public chores: Array<Chore>= [ { text: 'Watch TV', completed: true }, { text: 'Laundry', completed: false } ];
+export class AppComponent implements OnInit {
+  public chores: Array<Chore>;
+
+  constructor(private choreStore: ChoreStoreService, private choreActions: ChoreActions) {
+    this.choreStore.addListener(this.onChoresChanged.bind(this));
+  }
+
+  ngOnInit(): void {
+    // this.choreActions.create('Watch TV');
+    this.chores = this.choreStore.getState();
+  }
+
+  private onChoresChanged(changeEvent: string): void {
+    this.chores = this.choreStore.getState();
+  }
 }

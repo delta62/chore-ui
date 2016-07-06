@@ -1,14 +1,15 @@
 import { EventEmitter } from '@angular/core';
 
-import { FluxDispatcher, DispatchToken } from '../flux-dispatcher.service.ts';
+import { FluxDispatcher, DispatchToken } from '../flux-dispatcher.service';
 import { invariant } from '../invariant';
 
 export abstract class FluxStore {
   private dispatchToken: DispatchToken;
+
   protected changed: boolean;
   protected changeEvent: string;
-  private className: string;
   protected emitter: EventEmitter<string>;
+  protected className: string;
 
   constructor(private dispatcher: FluxDispatcher) {
     this.className = this.constructor['name'];
@@ -16,13 +17,13 @@ export abstract class FluxStore {
     this.changeEvent = 'change';
     this.emitter = new EventEmitter<string>();
 
-    this.dispatchToken = dispatcher.register((payload) => {
+    this.dispatchToken = dispatcher.register((payload: any) => {
       this.invokeOnDispatch(payload);
     });
   }
 
   addListener(callback: (eventType?: string) => void): { remove: () => void } {
-    return this.emitter.subscribe(this.changeEvent, callback);
+    return this.emitter.subscribe(callback);
   }
 
   getDispatcher(): FluxDispatcher {

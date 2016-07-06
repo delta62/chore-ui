@@ -16,6 +16,8 @@ export class FluxDispatcher {
 
   constructor() {
     this.callbacks = { };
+    this.isPending = { };
+    this.isHandled = { };
     this.dispatching = false;
     this.prefix = 'ID_';
     this.lastId = 1;
