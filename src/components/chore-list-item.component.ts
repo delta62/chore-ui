@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
-import { Chore } from './chore';
-import { ChoreActions } from './actions/chore-actions';
+import { Chore } from '../models';
+import { ChoreActions } from '../actions';
 
 @Component({
   selector: 'chore-list-item',

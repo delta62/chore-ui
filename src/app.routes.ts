@@ -1,7 +1,6 @@
 import { provideRouter, RouterConfig } from '@angular/router';
 
-import { ChoreListComponent } from './chore-list.component';
-import { AdminComponent } from './admin.component';
+import { ChoreListComponent, AdminComponent } from './components';
 
 export const routes: RouterConfig = [
   { path: '', redirectTo: '/list', pathMatch: 'full' },

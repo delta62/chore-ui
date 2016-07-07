@@ -48,5 +48,7 @@ export abstract class FluxStore {
     }
   }
 
-  protected abstract onDispatch(payload: any): void;
+  protected onDispatch(payload: any): void {
+    invariant(false, '${this.className} has not overridden FluxStore.__onDispatch(), which is required');
+  }
 }

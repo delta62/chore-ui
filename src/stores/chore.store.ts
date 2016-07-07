@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 
-import { Chore } from '../chore';
+import { Chore } from '../models';
 import { FluxDispatcher } from '../flux-dispatcher.service';
 import { FluxReduceStore } from './flux-reduce-store';
 
 @Injectable()
-export class ChoreStoreService extends FluxReduceStore<Array<Chore>> {
+export class ChoreStore extends FluxReduceStore<Array<Chore>> {
 
   constructor(dispatcher: FluxDispatcher) {
     super(dispatcher);
@@ -16,10 +16,6 @@ export class ChoreStoreService extends FluxReduceStore<Array<Chore>> {
       { id: '1', text: 'Watch TV', completed: false },
       { id: '2', text: 'Laundry', completed: false }
     ];
-  }
-
-  onDispatch(payload: any): void {
-    console.log('dispatch!!!!!!', payload);
   }
 
   reduce(chores: Array<Chore>, action: any): Array<Chore> {
