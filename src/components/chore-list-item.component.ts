@@ -15,7 +15,7 @@ export class ChoreListItemComponent {
   constructor(private choreActions: ChoreActions) { }
 
   onToggle(enabled: boolean): void {
-    this.choreActions.toggleCompleted(this.chore.id, enabled);
+    this.choreActions.toggleCompleted(this.chore.text, enabled);
   }
 }
 

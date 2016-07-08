@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { invariant } from './invariant';
+import { Payload } from './actions';
 
 export type DispatchToken = string;
-type Callback = (payload: any) => void;
+type ActionCallback = (payload: Payload) => void;
 
 @Injectable()
 export class FluxDispatcher {
-  private callbacks: { [key: string]: Callback };
+  private callbacks: { [key: string]: ActionCallback };
   private isPending: { [key: string]: boolean };
   private isHandled: { [key: string]: boolean };
-  private pendingPayload: any;
+  private pendingPayload: Payload;
   private dispatching: boolean;
   private prefix: string;
   private lastId: number;
@@ -23,7 +24,7 @@ export class FluxDispatcher {
     this.lastId = 1;
   }
 
-  register(callback: Callback): DispatchToken {
+  register(callback: ActionCallback): DispatchToken {
     invariant(!this.dispatching, 'Dispatcher.register(...): Cannot register in the middle of a dispatch.');
     let id = this.prefix + this.lastId++;
     this.callbacks[id] = callback;
@@ -40,7 +41,7 @@ export class FluxDispatcher {
 
   }
 
-  dispatch(payload: any): void {
+  dispatch(payload: Payload): void {
     invariant(!this.dispatching, 'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.');
     this.startDispatching(payload);
     try {
@@ -60,7 +61,7 @@ export class FluxDispatcher {
     return this.dispatching;
   }
 
-  private startDispatching(payload: any): void {
+  private startDispatching(payload: Payload): void {
     for (let id in this.callbacks) {
       this.isPending[id] = false;
       this.isHandled[id] = false;

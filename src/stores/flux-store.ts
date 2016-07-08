@@ -1,5 +1,6 @@
 import { EventEmitter } from '@angular/core';
 
+import { Payload } from '../actions';
 import { FluxDispatcher, DispatchToken } from '../flux-dispatcher.service';
 import { invariant } from '../invariant';
 
@@ -17,7 +18,7 @@ export abstract class FluxStore {
     this.changeEvent = 'change';
     this.emitter = new EventEmitter<string>();
 
-    this.dispatchToken = dispatcher.register((payload: any) => {
+    this.dispatchToken = dispatcher.register((payload: Payload) => {
       this.invokeOnDispatch(payload);
     });
   }
@@ -40,7 +41,7 @@ export abstract class FluxStore {
     this.changed = true;
   }
 
-  protected invokeOnDispatch(payload: any): void {
+  protected invokeOnDispatch(payload: Payload): void {
     this.changed = false;
     this.onDispatch(payload);
     if (this.changed) {
@@ -48,7 +49,7 @@ export abstract class FluxStore {
     }
   }
 
-  protected onDispatch(payload: any): void {
+  protected onDispatch(payload: Payload): void {
     invariant(false, '${this.className} has not overridden FluxStore.__onDispatch(), which is required');
   }
 }

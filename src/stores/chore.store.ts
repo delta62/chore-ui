@@ -13,8 +13,8 @@ export class ChoreStore extends FluxReduceStore<Array<Chore>> {
 
   getInitialState(): Array<Chore> {
     return [
-      { id: '1', text: 'Watch TV', completed: false },
-      { id: '2', text: 'Laundry', completed: false }
+      { text: 'Watch TV', completed: false, tasks: [ ] },
+      { text: 'Laundry', completed: false, tasks: [ ] }
     ];
   }
 
@@ -23,16 +23,16 @@ export class ChoreStore extends FluxReduceStore<Array<Chore>> {
       case 'CHORE_CREATED':
         let arr = chores.slice();
         arr.push({
-          id: 'foobar',
           text: action.text,
-          completed: false
+          completed: false,
+          tasks: [ ]
         })
         return arr;
       case 'CHORE_COMPLETED':
         return chores.map((val: Chore) => ({
-          id: val.id,
           text: val.text,
-          completed: val.id === action.id ? action.completed : val.completed
+          completed: val.text === action.text ? action.completed : val.completed,
+          tasks: val.tasks
         }));
       default:
         return chores;

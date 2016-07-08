@@ -10,8 +10,8 @@ export class ChoreActions {
 
   constructor(private dispatcher: FluxDispatcher) { }
 
-  toggleCompleted(id: string, completed: boolean): void {
-    this.dispatcher.dispatch({ actionType: CHORE_COMPLETED, id, completed });
+  toggleCompleted(text: string, completed: boolean): void {
+    this.dispatcher.dispatch({ actionType: CHORE_COMPLETED, text, completed });
   }
 
   create(text: string): void {

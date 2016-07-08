@@ -1,23 +1,37 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { NgFor } from '@angular/common';
 
-import { ChoreActions } from '../actions';
-import { ChoreNameStore, ChoreTaskStore } from '../stores';
+import { Chore } from '../models';
+import { ChoreEditActions } from '../actions';
 
 @Component({
   selector: 'chore-edit',
   template: `
-    <input #name type="text">
-    <input type="text">
-    <button type="button" (click)="onSubmit(name.value)">Do</button>`
+    <label>Chore</label>
+    <input #name type="text" [value]="chore.text" (change)="onTextChanged(name.value)">
+    <ul>
+      <li *ngFor="let task of chore.tasks">{{ task }}</li>
+    </ul>
+    <input #task type="text">
+    <button type="button" (click)="onAddTask(task.value)">Add</button>
+    <br>
+    <button type="button" (click)="onSubmit()">Create</button>`,
+  directives: [ NgFor ]
 })
 export class ChoreEditComponent {
+  @Input() chore: Chore;
 
-  constructor(
-    private choreActions: ChoreActions,
-    private choreNameStore: ChoreNameStore,
-    private choreTaskStore: ChoreTaskStore) { }
+  constructor(private choreEditActions: ChoreEditActions) { }
+
+  onTextChanged(text: string): void {
+    this.choreEditActions.setText(text);
+  }
+
+  onAddTask(text: string): void {
+    this.choreEditActions.addTask(text);
+  }
 
   onSubmit(text: string): void {
-    this.choreActions.create(text);
+    console.log('submit');
   }
 }

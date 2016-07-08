@@ -1,5 +1,5 @@
 export interface Chore {
-  id: string;
   text: string;
   completed: boolean;
+  tasks: Array<string>;
 }
