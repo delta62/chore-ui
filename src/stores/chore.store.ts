@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Chore } from '../models';
+import { Task, Chore } from '../models';
 import { FluxDispatcher } from '../flux-dispatcher.service';
 import { FluxReduceStore } from './flux-reduce-store';
 
@@ -13,8 +13,19 @@ export class ChoreStore extends FluxReduceStore<Array<Chore>> {
 
   getInitialState(): Array<Chore> {
     return [
-      { text: 'Watch TV', completed: false, tasks: [ ] },
-      { text: 'Laundry', completed: false, tasks: [ ] }
+      {
+        text: 'Watch TV',
+        completed: false,
+        tasks: [
+          { text: 'Eat the mayo', completed: false },
+          { text: 'Burn the cat', completed: false }
+        ]
+      },
+      {
+        text: 'Laundry',
+        completed: false,
+        tasks: [ ]
+      }
     ];
   }
 
@@ -28,6 +39,21 @@ export class ChoreStore extends FluxReduceStore<Array<Chore>> {
           tasks: [ ]
         })
         return arr;
+      case 'CHORE_TASK_COMPLETED':
+        return chores.map((val: Chore) => {
+          if (val.text !== action.choreText) {
+            return val;
+          }
+          let tasks = val.tasks.map((task: Task) => ({
+            text: task.text,
+            completed: task.text === action.taskText ? action.completed : task.completed
+          }));
+          return {
+            text: val.text,
+            completed: val.completed,
+            tasks
+          };
+        });
       case 'CHORE_COMPLETED':
         return chores.map((val: Chore) => ({
           text: val.text,

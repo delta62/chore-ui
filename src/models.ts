@@ -1,1 +1,1 @@
-export { Chore } from './models/chore';
+export { Chore, Task } from './models/chore';

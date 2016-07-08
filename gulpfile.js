@@ -38,7 +38,9 @@ gulp.task('less', () => {
     .pipe(browserSync.stream());
 });
 
-gulp.task('ts-watch', [ 'ts' ], browserSync.reload);
+gulp.task('ts-watch', [ 'ts' ], () => {
+  browserSync.reload();
+});
 
 gulp.task('ts', () => {
   return gulp.src([ 'src/**/*.ts', 'typings/index.d.ts' ])

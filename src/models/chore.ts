@@ -1,5 +1,8 @@
-export interface Chore {
+export interface Task {
   text: string;
   completed: boolean;
-  tasks: Array<string>;
+}
+
+export interface Chore extends Task {
+  tasks: Array<Task>;
 }

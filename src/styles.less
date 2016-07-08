@@ -1,9 +1,14 @@
 @green: #3c9;
 
 // Reset
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, ol {
   margin: 0;
   padding: 0;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
 }
 
 header {
@@ -31,7 +36,20 @@ header {
   }
 }
 
-body {
-  font-family: 'Open Sans', sans-serif;
-  margin: 0;
+chore-list-item {
+  display: block;
+  font-size: 24px;
+  padding: .5em;
+
+  li {
+    list-style-type: none;
+    padding-left: 1em;
+    padding-top: .3em;
+    position: relative;
+  }
+
+  i {
+    position: absolute;
+    right: 0;
+  }
 }
