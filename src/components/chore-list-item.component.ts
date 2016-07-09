@@ -9,13 +9,7 @@ import { CheckboxComponent, CheckboxChangeEvent } from './checkbox.component';
   selector: 'chore-list-item',
   template: `
     {{ chore.text }}
-    <fa-checkbox [checked]="chore.completed" (change)="onToggle($event)"></fa-checkbox>
-    <ol *ngIf="chore.tasks.length">
-      <li *ngFor="let task of chore.tasks">
-        {{ task.text }}
-        <fa-checkbox [checked]="task.completed" (change)="onTaskToggle(task.text, $event)"></fa-checkbox>
-      </li>
-    </ol>`,
+    <fa-checkbox [checked]="chore.completed" (change)="onToggle($event)"></fa-checkbox>`,
   directives: [ NgFor, NgIf, NgClass, CheckboxComponent ]
 })
 export class ChoreListItemComponent {
@@ -25,10 +19,6 @@ export class ChoreListItemComponent {
 
   private onToggle(event: CheckboxChangeEvent): void {
     this.choreActions.toggleCompleted(this.chore.text, event.value);
-  }
-
-  private onTaskToggle(text: string, event: CheckboxChangeEvent): void {
-    this.choreActions.toggleTask(text, event.value);
   }
 }
 

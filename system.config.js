@@ -4,12 +4,14 @@
   var map = {
     app: 'dist',
     '@angular': 'node_modules/@angular',
+    immutable: 'node_modules/immutable',
     rxjs: 'node_modules/rxjs'
   };
 
   var packages = {
     app: { main: 'main.js', defaultExtension: 'js' },
-    rxjs: { defaultExtension: 'js' }
+    rxjs: { defaultExtension: 'js' },
+    immutable: { main: 'dist/immutable.min', defaultExtension: 'js' }
   };
 
   var ngPackageNames = [

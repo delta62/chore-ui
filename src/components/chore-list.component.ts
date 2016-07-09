@@ -14,18 +14,18 @@ import { ListHeaderComponent } from './list-header.component';
   directives: [ NgFor, ChoreListItemComponent, ListHeaderComponent ]
 })
 export class ChoreListComponent implements OnInit {
-  public chores: Array<Chore>;
+  public chores: Iterator<Chore>;
 
   constructor(private choreStore: ChoreStore) {
     this.choreStore.addListener(this.onChoresChanged.bind(this));
   }
 
   ngOnInit(): void {
-    this.chores = this.choreStore.getState();
+    this.chores = this.choreStore.getState().values();
   }
 
   private onChoresChanged(changeEvent: string): void {
-    this.chores = this.choreStore.getState();
+    this.chores = this.choreStore.getState().values();
   }
 }
 

@@ -4,7 +4,7 @@ import { FluxDispatcher } from '../flux-dispatcher.service';
 import { FluxStore } from './flux-store';
 
 export abstract class FluxReduceStore<T> extends FluxStore{
-  private state: T;
+  protected state: T;
 
   constructor(dispatcher: FluxDispatcher) {
     super(dispatcher);

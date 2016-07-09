@@ -4,7 +4,7 @@ import { Chore } from '../models';
 import { FluxReduceStore } from './flux-reduce-store';
 import { FluxDispatcher } from '../flux-dispatcher.service';
 
-import { CHORE_EDIT_ADD_TASK, CHORE_EDIT_SET_TEXT } from '../actions/chore-edit-actions';
+import { CHORE_EDIT_SET_TEXT } from '../actions/chore-edit-actions';
 
 @Injectable()
 export class ChoreEditStore extends FluxReduceStore<Chore> {
@@ -16,26 +16,16 @@ export class ChoreEditStore extends FluxReduceStore<Chore> {
   getInitialState(): Chore {
     return {
       text: '',
-      completed: false,
-      tasks: [ ]
+      completed: false
     };
   }
 
   reduce(state: Chore, payload: Payload): Chore {
     switch (payload.actionType) {
-      case CHORE_EDIT_ADD_TASK:
-        let tasks = state.tasks.slice();
-        tasks.push(payload['text']);
-        return {
-          text: state.text,
-          completed: state.completed,
-          tasks
-        };
       case CHORE_EDIT_SET_TEXT:
         return {
           text: payload['text'],
-          completed: state.completed,
-          tasks: state.tasks
+          completed: state.completed
         };
       default:
         return state;

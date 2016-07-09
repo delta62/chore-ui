@@ -1,67 +1,42 @@
 import { Injectable } from '@angular/core';
+import { Map } from 'immutable';
 
 import { Task, Chore } from '../models';
 import { FluxDispatcher } from '../flux-dispatcher.service';
 import { FluxReduceStore } from './flux-reduce-store';
+import { ChorePayload, ChoreCompletedPayload, CHORE_COMPLETE, CHORE_CREATE } from '../actions';
 
 @Injectable()
-export class ChoreStore extends FluxReduceStore<Array<Chore>> {
+export class ChoreStore extends FluxReduceStore<Map<string, Chore>> {
 
   constructor(dispatcher: FluxDispatcher) {
     super(dispatcher);
   }
 
-  getInitialState(): Array<Chore> {
-    return [
+  getInitialState(): Map<string, Chore> {
+    return Map.of(
+      'Watch TB',
       {
-        text: 'Watch TV',
-        completed: false,
-        tasks: [
-          { text: 'Eat the mayo', completed: false },
-          { text: 'Burn the cat', completed: false }
-        ]
-      },
-      {
-        text: 'Laundry',
-        completed: false,
-        tasks: [ ]
+        text: 'Watch TB',
+        completed: false
       }
-    ];
+    );
   }
 
-  reduce(chores: Array<Chore>, action: any): Array<Chore> {
-    switch (action.actionType) {
-      case 'CHORE_CREATED':
-        let arr = chores.slice();
-        arr.push({
-          text: action.text,
-          completed: false,
-          tasks: [ ]
-        })
-        return arr;
-      case 'CHORE_TASK_COMPLETED':
-        return chores.map((val: Chore) => {
-          if (val.text !== action.choreText) {
-            return val;
-          }
-          let tasks = val.tasks.map((task: Task) => ({
-            text: task.text,
-            completed: task.text === action.taskText ? action.completed : task.completed
-          }));
-          return {
-            text: val.text,
-            completed: val.completed,
-            tasks
-          };
+  reduce(state: Map<string, Chore>, payload: ChorePayload): Map<string, Chore> {
+    switch (payload.actionType) {
+      case CHORE_CREATE:
+        return state.set(payload.text, {
+          text: payload.text,
+          completed: false
         });
-      case 'CHORE_COMPLETED':
-        return chores.map((val: Chore) => ({
-          text: val.text,
-          completed: val.text === action.text ? action.completed : val.completed,
-          tasks: val.tasks
-        }));
+      case CHORE_COMPLETE:
+        return state.update(payload.text, (chore) => ({
+          text: chore.text,
+          completed: (<ChoreCompletedPayload>payload).completed
+        }))
       default:
-        return chores;
+        return state;
     }
   }
 }

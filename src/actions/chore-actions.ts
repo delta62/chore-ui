@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 
 import { FluxDispatcher } from '../flux-dispatcher.service';
+import { Payload } from './payload';
 
-const CHORE_COMPLETED: string = 'CHORE_COMPLETED';
-const CHORE_TASK_COMPLETED: string = 'CHORE_TASK_COMPLETED';
-const CHORE_CREATED: string = 'CHORE_CREATED';
+export const CHORE_COMPLETE: string = 'CHORE_COMPLETE';
+export const CHORE_CREATE: string = 'CHORE_CREATE';
 
 @Injectable()
 export class ChoreActions {
@@ -12,14 +12,25 @@ export class ChoreActions {
   constructor(private dispatcher: FluxDispatcher) { }
 
   toggleCompleted(text: string, completed: boolean): void {
-    this.dispatcher.dispatch({ actionType: CHORE_COMPLETED, text, completed });
+    this.dispatcher.dispatch(<ChoreCompletedPayload>{
+      actionType: CHORE_COMPLETE,
+      text,
+      completed
+    });
   }
 
   create(text: string): void {
-    this.dispatcher.dispatch({ actionType: CHORE_CREATED, text });
+    this.dispatcher.dispatch(<ChorePayload>{
+      actionType: CHORE_CREATE,
+      text
+    });
   }
+}
 
-  toggleTask(choreText: string, taskText: string, completed: boolean): void {
-    this.dispatcher.dispatch({ actionType: CHORE_TASK_COMPLETED, choreText, taskText, completed });
-  }
+export interface ChorePayload extends Payload {
+  text: string;
+}
+
+export interface ChoreCompletedPayload extends ChorePayload {
+  completed: boolean;
 }
