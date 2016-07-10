@@ -15,7 +15,11 @@ export class TaskStore extends FluxReduceStore<ChoreTaskHash> {
   }
 
   getInitialState(): ChoreTaskHash {
-    return Map<string, Map<string, Task>>();
+    // return Map<string, Map<string, Task>>();
+    let task = 'TV';
+    let tasks = Map.of(task, { text: task, completed: false }, 'foo', { text: 'foo', completed: true });
+
+    return Map.of('Watch TB', tasks);
   }
 
   getChoreTasks(choreText: string): Map<string, Task> {

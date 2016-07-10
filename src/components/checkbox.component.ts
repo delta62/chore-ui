@@ -14,14 +14,13 @@ export interface CheckboxChangeEvent {
 })
 export class CheckboxComponent {
   @Input() checked: boolean;
-  @Output() changed: EventEmitter<CheckboxChangeEvent>;
+  @Output() change: EventEmitter<CheckboxChangeEvent>;
 
   constructor() {
-    this.changed = new EventEmitter<CheckboxChangeEvent>();
+    this.change = new EventEmitter<CheckboxChangeEvent>();
   }
 
   private onClick() {
-    this.checked = !this.checked;
-    this.changed.emit({ value: this.checked });
+    this.change.emit({ value: !this.checked });
   }
 }
