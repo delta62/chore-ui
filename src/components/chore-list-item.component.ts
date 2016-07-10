@@ -1,9 +1,10 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { NgFor } from '@angular/common';
+import { List } from 'immutable';
 
 import { Chore, Task } from '../models';
 import { ChoreActions } from '../actions';
-import { CheckboxComponent, CheckboxChangeEvent } from './checkbox.component';
+import { CheckboxComponent } from './checkbox.component';
 import { TaskListItemComponent } from './task-list-item.component';
 
 @Component({
@@ -11,21 +12,17 @@ import { TaskListItemComponent } from './task-list-item.component';
   template: `
     {{ chore.text }}
     <fa-checkbox [checked]="chore.completed" (change)="onToggle($event)"></fa-checkbox>
-    <task-list-item *ngFor="let task of taskList" [task]="task"></task-list-item>`,
-  directives: [ NgFor, CheckboxComponent, TaskListItemComponent ]
+    <task-list-item *ngFor="let task of tasks" [task]="task"></task-list-item>`,
+  directives: [ NgFor, CheckboxComponent, TaskListItemComponent ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChoreListItemComponent implements OnChanges {
+export class ChoreListItemComponent {
   @Input() chore: Chore;
-  @Input() tasks: Iterator<Task>;
+  @Input() tasks: List<Task>;
 
   constructor(private choreActions: ChoreActions) { }
 
-  ngOnChanges(): void {
-    console.log(this.tasks);
-  }
-
-  private onToggle(event: CheckboxChangeEvent): void {
-    this.choreActions.toggleCompleted(this.chore.text, event.value);
+  private onToggle(val: boolean): void {
+    this.choreActions.toggleCompleted(this.chore.text, val);
   }
 }
-

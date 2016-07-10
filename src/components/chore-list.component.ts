@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgFor } from '@angular/common';
-import { Iterable } from 'immutable';
+import { Iterable, List } from 'immutable';
 
 import { Chore, Task } from '../models';
 import { ChoreStore, TaskStore } from '../stores';
@@ -15,8 +15,8 @@ import { ListHeaderComponent } from './list-header.component';
   directives: [ NgFor, ChoreListItemComponent, ListHeaderComponent ]
 })
 export class ChoreListComponent implements OnInit {
-  private chores: Iterator<Chore>;
-  private tasks: Iterable<string, Iterator<Task>>;
+  private chores: List<Chore>;
+  private tasks: Iterable<string, List<Task>>;
 
   constructor(private choreStore: ChoreStore, private taskStore: TaskStore) {
     this.choreStore.addListener(this.onChoresChanged.bind(this));
@@ -29,12 +29,12 @@ export class ChoreListComponent implements OnInit {
   }
 
   private onChoresChanged(): void {
-    this.chores = this.choreStore.getState().values();
+    this.chores = this.choreStore.getState().toList();
   }
 
   private onTasksChanged(): void {
     this.tasks = this.taskStore
       .getState()
-      .map(val => val.values());
+      .map(val => val.toList());
   }
 }

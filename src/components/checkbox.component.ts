@@ -1,10 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { NgClass } from '@angular/common';
 
-export interface CheckboxChangeEvent {
-  value: boolean;
-}
-
 @Component({
   selector: 'fa-checkbox',
   template: `
@@ -14,13 +10,13 @@ export interface CheckboxChangeEvent {
 })
 export class CheckboxComponent {
   @Input() checked: boolean;
-  @Output() change: EventEmitter<CheckboxChangeEvent>;
+  @Output() change: EventEmitter<boolean>;
 
   constructor() {
-    this.change = new EventEmitter<CheckboxChangeEvent>();
+    this.change = new EventEmitter<boolean>();
   }
 
   private onClick() {
-    this.change.emit({ value: !this.checked });
+    this.change.emit(!this.checked);
   }
 }

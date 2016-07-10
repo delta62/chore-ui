@@ -16,28 +16,34 @@ export class TaskStore extends FluxReduceStore<ChoreTaskHash> {
 
   getInitialState(): ChoreTaskHash {
     // return Map<string, Map<string, Task>>();
+    let choreText = 'Watch TB';
     let task = 'TV';
-    let tasks = Map.of(task, { text: task, completed: false }, 'foo', { text: 'foo', completed: true });
+    let tasks = Map.of(task, { choreText, text: task, completed: false }, 'foo', { choreText, text: 'foo', completed: true });
 
-    return Map.of('Watch TB', tasks);
+    return Map.of(choreText, tasks);
   }
 
-  getChoreTasks(choreText: string): Map<string, Task> {
-    return this.state.get(choreText, Map<string, Task>());
-  }
-
-  reduce(state: ChoreTaskHash, payload: TaskPayload): ChoreTaskHash {
+  reduce(state: ChoreTaskHash, payload: Payload): ChoreTaskHash {
     switch (payload.actionType) {
       case TASK_CREATE:
-        let newTask = { text: payload.taskText, completed: false };
-        return state.setIn([ payload.choreText, payload.taskText ], newTask);
+        return this.create(state, <TaskPayload>payload);
       case TASK_COMPLETE:
-        return state.updateIn([ payload.choreText, payload.taskText ], (task) => ({
-          textTask: task.textTask,
-          completed: (<TaskCompletePayload>payload).completed
-        }));
+        return this.toggleCompleted(state, <TaskCompletePayload>payload);
       default:
         return state;
     }
+  }
+
+  private create(state: ChoreTaskHash, pl: TaskPayload): ChoreTaskHash {
+    let newTask = { text: pl.taskText, completed: false };
+    return state.setIn([ pl.choreText, pl.taskText ], newTask);
+  }
+
+  private toggleCompleted(state: ChoreTaskHash, pl: TaskCompletePayload): ChoreTaskHash {
+    return state.updateIn([ pl.choreText, pl.taskText ], (task: Task) => ({
+      choreText: task.choreText,
+      text: task.text,
+      completed: pl.completed
+    }));
   }
 }

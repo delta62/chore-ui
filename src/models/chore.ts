@@ -1,3 +1,4 @@
-import { Task } from './task';
-
-export interface Chore extends Task { }
+export interface Chore {
+  text: string;
+  completed: boolean;
+}
